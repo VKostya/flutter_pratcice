@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -16,8 +17,13 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter++;
     });
-  }
+  }  
 
+  void _counterToZero() {
+    setState(() {
+      _counter = 0;
+    });
+  }  
   @override
   Widget build(BuildContext context) {
 
@@ -40,11 +46,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children:[
+          FloatingActionButton(
+        onPressed: _counterToZero,
+        tooltip: 'To zero',
+        child: const Icon(Icons.exposure_zero),
+      ),
+         FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.plus_one),
       ), 
+      
+      ],
+    ),
     );
   }
 }

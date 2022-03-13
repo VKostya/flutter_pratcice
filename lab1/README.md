@@ -9,3 +9,4 @@ This project is a starting point for a Flutter application.
 Theese are the changes I have made to it during the task:
 - removed auto-generated comments
 - splited MyApp and MyHomePage classes to the different files
+- added "To zero" button that sets couneter's value to zero
