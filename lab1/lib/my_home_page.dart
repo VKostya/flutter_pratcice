@@ -23,13 +23,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _counter = 0;
     });
+    
   }  
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Center(
@@ -59,7 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.plus_one),
       ), 
-      
       ],
     ),
     );
