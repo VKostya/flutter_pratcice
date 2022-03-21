@@ -6,6 +6,6 @@ Set of basic practice works introducing to the Flutter framework
 
 Basic flutter app(clicker) modified with a refresh button
 
-## nutrion_analysis_app
+## random_dog_app
 
-This app gives nutrition details for any food recipe using [EDAMAN Nutrition Analysis API](https://developer.edamam.com/edamam-nutrition-api)
+This app gives .jpg or .mp4 file with some amusing dog on it using  [random dog API](https://random.dog/)
