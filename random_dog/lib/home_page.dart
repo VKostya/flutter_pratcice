@@ -30,63 +30,64 @@ class _HomePageFromState extends State<HomePage> {
         title: const Text("Doggies!"),
       ),
       body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Show me a ' + _options[_choise],
-                style: TextStyle(fontSize: 25, color: Colors.black),
-              ),
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 25.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Show me a ' + _options[_choise],
+              style: const TextStyle(fontSize: 25, color: Colors.black),
+            ),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 25.0,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 25),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 25),
+                  onPressed: () => _setChoise(0),
+                  child: const Text('Random dog file'),
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 25),
+                  ),
+                  onPressed: () => _setChoise(1),
+                  child: const Text('Random .jpg dog file'),
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(
+                      fontSize: 25,
                     ),
-                    onPressed: () => _setChoise(0),
-                    child: const Text('Random dog file'),
                   ),
-                  const SizedBox(
-                    height: 25.0,
+                  onPressed: () => _setChoise(2),
+                  child: const Text('Random .mp4 dog file'),
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
+              ],
+            ),
+            FloatingActionButton.extended(
+              label: const Text('Go'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(mode: _choise),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 25),
-                    ),
-                    onPressed: () => _setChoise(1),
-                    child: const Text('Random .jpg dog file'),
-                  ),
-                  const SizedBox(
-                    height: 25.0,
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    onPressed: () => _setChoise(2),
-                    child: const Text('Random .mp4 dog file'),
-                  ),
-                ],
-              ),
-              FloatingActionButton.extended(
-                label: Text('Go'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResultPage(mode: _choise),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
