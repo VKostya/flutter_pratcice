@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:math';
 import 'dart:io' as io;
+import "video_items.dart";
+
+import 'package:video_player/video_player.dart';
 
 Future<String> getDogFile(choise) async {
   try {
@@ -26,9 +29,7 @@ Future<String> getDogFile(choise) async {
     if (choise == 1) {
       return allDogsDecoded[num.nextInt(allDogsDecoded.length)];
     }
-    final error = mp4Dogs[num.nextInt(mp4Dogs.length)];
-
-    return error;
+    return mp4Dogs[num.nextInt(mp4Dogs.length)];
   } on Exception catch (_) {
     return 'images/error_dog.jpg';
   }
@@ -111,14 +112,16 @@ class _ResultPageState extends State<ResultPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           // ignore: prefer_const_literals_to_create_immutables
                           children: <Widget>[
-                            const Flexible(
+                            Flexible(
                                 flex: 1,
-                                child: Text(
-                                    'Trying to understang how to work with videos') /*VideoPlayerController.network(
-                                    'https://random.dog/'
-                                    '${snapshot.data!.toString()}',
-                                    fit: BoxFit.cover),*/
-                                )
+                                child: VideoItems(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(
+                                          'https://random.dog/'
+                                          '${snapshot.data!.toString()}'),
+                                  looping: true,
+                                  autoplay: true,
+                                ))
                           ]);
                     } else {
                       children = Column(
