@@ -12,7 +12,23 @@ Future<String> getDogFile(choise) async {
       return 'images/error_dog.jpg';
     }
     final allDogsDecoded = jsonDecode(allDogs.body);
-    return allDogsDecoded[choise];
+    var num = Random();
+    if (choise == 0) {
+      return allDogsDecoded[num.nextInt(allDogsDecoded.length)];
+    }
+    List<String> mp4Dogs = [];
+    for (int i = 0; i < allDogsDecoded.length; i++) {
+      if (allDogsDecoded[i].contains('.mp4')) {
+        mp4Dogs.add(allDogsDecoded[i]);
+        allDogsDecoded.remove(allDogsDecoded[i]);
+      }
+    }
+    if (choise == 1) {
+      return allDogsDecoded[num.nextInt(allDogsDecoded.length)];
+    }
+    final error = mp4Dogs[num.nextInt(mp4Dogs.length)];
+
+    return error;
   } on Exception catch (_) {
     return 'images/error_dog.jpg';
   }
@@ -29,6 +45,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   late Future<String> fileSource;
+  late String fileExtention;
 
   @override
   void initState() {
@@ -51,6 +68,7 @@ class _ResultPageState extends State<ResultPage> {
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 Widget children;
                 if (snapshot.hasData) {
+                  bool containsMP4 = snapshot.data!.toString().contains('.mp4');
                   if (snapshot.data!.toString() == 'images/error_dog.jpg') {
                     children = Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +92,7 @@ class _ResultPageState extends State<ResultPage> {
                           ),
                           const Flexible(
                             flex: 1,
-                            child: const SizedBox(
+                            child: SizedBox(
                               height: 25.0,
                             ),
                           ),
@@ -87,28 +105,48 @@ class _ResultPageState extends State<ResultPage> {
                           )
                         ]);
                   } else {
-                    children = Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: Image.network(
-                              'https://random.dog/'
-                              '${snapshot.data!.toString()}',
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        ]);
+                    if (containsMP4) {
+                      children = Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <Widget>[
+                            const Flexible(
+                                flex: 1,
+                                child: Text(
+                                    'Trying to understang how to work with videos') /*VideoPlayerController.network(
+                                    'https://random.dog/'
+                                    '${snapshot.data!.toString()}',
+                                    fit: BoxFit.cover),*/
+                                )
+                          ]);
+                    } else {
+                      children = Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: Image.network(
+                                'https://random.dog/'
+                                '${snapshot.data!.toString()}',
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          ]);
+                    }
                   }
                 } else if (snapshot.hasError) {
-                  children = Column(children: <Widget>[
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 60,
-                    ),
-                  ]);
+                  children = Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const <Widget>[
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                      ]);
                 } else {
                   children = Column(
                       mainAxisAlignment: MainAxisAlignment.center,

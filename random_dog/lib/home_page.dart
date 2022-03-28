@@ -57,7 +57,7 @@ class _HomePageFromState extends State<HomePage> {
                     textStyle: const TextStyle(fontSize: 25),
                   ),
                   onPressed: () => _setChoise(1),
-                  child: const Text('Random .jpg dog file'),
+                  child: const Text('Random .jpg or .gif dog file'),
                 ),
                 const SizedBox(
                   height: 25.0,
