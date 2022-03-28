@@ -106,13 +106,12 @@ class _ResultPageState extends State<ResultPage> {
                           )
                         ]);
                   } else {
-                    if (containsMP4) {
-                      children = Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: <Widget>[
-                            Flexible(
+                    children = Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        containsMP4
+                            ? Flexible(
                                 flex: 1,
                                 child: VideoItems(
                                   videoPlayerController:
@@ -122,22 +121,17 @@ class _ResultPageState extends State<ResultPage> {
                                   looping: true,
                                   autoplay: true,
                                 ))
-                          ]);
-                    } else {
-                      children = Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Flexible(
-                              flex: 1,
-                              child: Image.network(
-                                'https://random.dog/'
-                                '${snapshot.data!.toString()}',
-                                fit: BoxFit.cover,
+                            : Flexible(
+                                flex: 1,
+                                child: Image.network(
+                                  'https://random.dog/'
+                                  '${snapshot.data!.toString()}',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            )
-                          ]);
-                    }
+                        Text('data')
+                      ],
+                    );
                   }
                 } else if (snapshot.hasError) {
                   children = Column(
