@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 import 'dart:async';
 import 'dart:math';
 import 'dart:io' as io;
 import "video_items.dart";
-
 import 'package:video_player/video_player.dart';
 
 Future<String> getDogFile(choise) async {
@@ -47,6 +47,8 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   late Future<String> fileSource;
   late String fileExtention;
+  bool loading = false;
+  bool saved = false;
 
   @override
   void initState() {
@@ -69,7 +71,6 @@ class _ResultPageState extends State<ResultPage> {
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 Widget children;
                 if (snapshot.hasData) {
-                  bool containsMP4 = snapshot.data!.toString().contains('.mp4');
                   if (snapshot.data!.toString() == 'images/error_dog.jpg') {
                     children = Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -106,30 +107,45 @@ class _ResultPageState extends State<ResultPage> {
                           )
                         ]);
                   } else {
+                    bool containsMP4 =
+                        snapshot.data!.toString().contains('.mp4');
+                    String fileName =
+                        'http://random.dog/' '${snapshot.data!.toString()}';
                     children = Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         containsMP4
                             ? Flexible(
-                                flex: 1,
+                                flex: 14,
                                 child: VideoItems(
                                   videoPlayerController:
-                                      VideoPlayerController.network(
-                                          'https://random.dog/'
-                                          '${snapshot.data!.toString()}'),
+                                      VideoPlayerController.network(fileName),
                                   looping: true,
                                   autoplay: true,
                                 ))
                             : Flexible(
-                                flex: 1,
+                                flex: 14,
                                 child: Image.network(
-                                  'https://random.dog/'
-                                  '${snapshot.data!.toString()}',
+                                  fileName,
                                   fit: BoxFit.cover,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  },
                                 ),
                               ),
-                        Text('data')
+                        const Flexible(flex: 1, child: SizedBox(height: 25.0)),
+                        Flexible(
+                            flex: 1,
+                            child: FloatingActionButton.extended(
+                                onPressed: () {
+                                  Share.share(
+                                      'Check this amusing dog ' + fileName);
+                                },
+                                label: const Text("Share this dog!")))
                       ],
                     );
                   }

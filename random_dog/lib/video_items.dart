@@ -34,7 +34,7 @@ class _VideoItemsState extends State<VideoItems> {
         return Center(
           child: Text(
             errorMessage,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
         );
       },
