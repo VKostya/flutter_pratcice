@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:random_dog/result_page.dart';
+
+import 'dark_theme/dark_theme_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,16 +29,30 @@ class _HomePageFromState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Doggies!"),
-      ),
+          centerTitle: true,
+          title: Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.brightness_6),
+                color: Colors.white,
+                onPressed: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .swapTheme();
+                },
+              ),
+              const Text(
+                "Doggies!",
+                textAlign: TextAlign.center,
+              ),
+            ],
+          )),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'Show me a ' + _options[_choise],
-              style: const TextStyle(fontSize: 25, color: Colors.black),
+              style: const TextStyle(fontSize: 25),
             ),
             Column(
               children: [

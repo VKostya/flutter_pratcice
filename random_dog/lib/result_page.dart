@@ -66,8 +66,7 @@ class _ResultPageState extends State<ResultPage> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: FutureBuilder<String>(
-              future:
-                  fileSource, // a previously-obtained Future<String> or null
+              future: fileSource,
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 Widget children;
                 if (snapshot.hasData) {
