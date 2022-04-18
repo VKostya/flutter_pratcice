@@ -20,10 +20,12 @@ class VideoItems extends StatefulWidget {
 
 class _VideoItemsState extends State<VideoItems> {
   late ChewieController _chewieController;
+  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
+    _initializeVideoPlayerFuture = widget.videoPlayerController.initialize();
     _chewieController = ChewieController(
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 5 / 8,
@@ -42,12 +44,6 @@ class _VideoItemsState extends State<VideoItems> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _chewieController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -55,5 +51,11 @@ class _VideoItemsState extends State<VideoItems> {
         controller: _chewieController,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _chewieController.dispose();
   }
 }

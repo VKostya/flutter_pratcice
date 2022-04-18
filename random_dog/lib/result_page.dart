@@ -8,6 +8,12 @@ import 'dart:io' as io;
 import "video_items.dart";
 import 'package:video_player/video_player.dart';
 
+/*:Text(
+                              'I do not know how to work with a videos yet',
+                              style: TextStyle(fontSize: 25),
+                              textAlign: TextAlign.center,
+                            )*/
+
 Future<String> getDogFile(choise) async {
   try {
     final allDogs = await http.get(Uri.parse('https://random.dog/doggos'));
@@ -29,9 +35,9 @@ Future<String> getDogFile(choise) async {
     if (choise == 1) {
       return allDogsDecoded[num.nextInt(allDogsDecoded.length)];
     }
-    return mp4Dogs[num.nextInt(mp4Dogs.length)];
+    return 'assets/error_dog.jpg';
   } on Exception catch (_) {
-    return 'images/error_dog.jpg';
+    return 'assets/error_dog.jpg';
   }
 }
 
@@ -48,12 +54,15 @@ class _ResultPageState extends State<ResultPage> {
   late Future<String> fileSource;
   late String fileExtention;
   bool loading = false;
-  bool saved = false;
+  bool mode_mp4 = false;
 
   @override
   void initState() {
     super.initState();
     fileSource = getDogFile(widget.mode);
+    if (widget.mode == 2) {
+      mode_mp4 = true;
+    }
   }
 
   @override
@@ -70,23 +79,22 @@ class _ResultPageState extends State<ResultPage> {
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 Widget children;
                 if (snapshot.hasData) {
-                  if (snapshot.data!.toString() == 'images/error_dog.jpg') {
+                  if (snapshot.data!.toString() == 'assets/error_dog.jpg') {
                     children = Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Flexible(
+                              flex: 2,
+                              child: Text(
+                                'We could not find any other dogs',
+                                style: TextStyle(fontSize: 25),
+                                textAlign: TextAlign.center,
+                              )),
+                          Flexible(
                             flex: 2,
                             child: Text(
-                              'We could not find any other dogs',
-                              style: TextStyle(fontSize: 25),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          const Flexible(
-                            flex: 2,
-                            child: Text(
-                              'Check your internet connection or vpn/proxy settings',
+                              '${mode_mp4 ? 'I do not know how to work with a videos yet' : "Check your internet connection"}',
                               style: TextStyle(fontSize: 25),
                               textAlign: TextAlign.center,
                             ),
@@ -109,7 +117,7 @@ class _ResultPageState extends State<ResultPage> {
                     bool containsMP4 =
                         snapshot.data!.toString().contains('.mp4');
                     String fileName =
-                        'http://random.dog/' '${snapshot.data!.toString()}';
+                        'https://random.dog/' '${snapshot.data!.toString()}';
                     children = Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
